@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import chatbotAvatar from '../assets/chatbot/chatbot_AI.jpg';
 
 interface Message {
@@ -175,14 +177,13 @@ const Chatbox: React.FC<ChatboxProps> = ({ isOpen, onClose }) => {
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.9, opacity: 0, y: 20 }}
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="relative bg-white rounded-2xl shadow-2xl w-full sm:w-[400px] h-[85vh] sm:h-[600px] flex flex-col border border-gray-200 pointer-events-auto"
+                        className="relative bg-white rounded-2xl shadow-2xl w-full sm:w-[450px] h-[85vh] sm:h-[650px] flex flex-col border border-gray-200 pointer-events-auto"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Header */}
                         <div className="bg-gradient-to-r from-green-600 to-emerald-700 text-white p-4 rounded-t-2xl flex-shrink-0">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center space-x-3">
-                                    {/* THAY ĐỔI: Sử dụng ảnh avatar thay vì icon emoji */}
                                     <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center overflow-hidden border border-white/50">
                                         <img src={chatbotAvatar} alt="AI Avatar" className="w-full h-full object-cover" />
                                     </div>
@@ -206,21 +207,44 @@ const Chatbox: React.FC<ChatboxProps> = ({ isOpen, onClose }) => {
                         <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
                             {messages.map((message) => (
                                 <div key={message.id} className={`flex w-full ${message.isUser ? 'justify-end' : 'justify-start'}`}>
-                                    {/* Chỉ thêm Avatar cho tin nhắn của AI */}
                                     {!message.isUser && (
                                         <img src={chatbotAvatar} alt="AI" className="w-8 h-8 rounded-full border border-green-200 object-cover mr-2 self-end mb-4" />
                                     )}
-                                    <div className={`flex flex-col max-w-[80%] ${message.isUser ? 'items-end' : 'items-start'}`}>
+                                    <div className={`flex flex-col max-w-[85%] ${message.isUser ? 'items-end' : 'items-start'}`}>
                                         <div
                                             className={`p-3 rounded-2xl text-left ${
                                                 message.isUser
-                                                    ? 'bg-green-600 text-white rounded-br-sm' // Đổi góc nhọn cho tin nhắn user
+                                                    ? 'bg-green-600 text-white rounded-br-sm'
                                                     : message.isError 
                                                         ? 'bg-red-100 text-red-700 rounded-bl-sm border border-red-200'
-                                                        : 'bg-white text-gray-800 rounded-bl-sm shadow-sm border border-gray-100' // Đổi góc nhọn cho tin nhắn AI
+                                                        : 'bg-white text-gray-800 rounded-bl-sm shadow-sm border border-gray-100'
                                             }`}
                                         >
-                                            <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.text}</p>
+                                            {/* Render Markdown thay vì Plain Text */}
+                                            <div className="text-sm leading-relaxed">
+                                                <ReactMarkdown 
+                                                    remarkPlugins={[remarkGfm]}
+                                                    components={{
+                                                        p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                                                        table: ({node, ...props}) => (
+                                                            <div className="overflow-x-auto my-2 w-full">
+                                                                <table className="min-w-full border-collapse border border-current text-xs sm:text-[13px]" {...props} />
+                                                            </div>
+                                                        ),
+                                                        th: ({node, ...props}) => <th className="border border-current px-2 py-1.5 text-left font-semibold bg-black/5" {...props} />,
+                                                        td: ({node, ...props}) => <td className="border border-current px-2 py-1.5" {...props} />,
+                                                        strong: ({node, ...props}) => <strong className="font-bold" {...props} />,
+                                                        blockquote: ({node, ...props}) => (
+                                                            <blockquote className="border-l-4 border-current opacity-90 pl-3 my-2 italic py-1 bg-black/5 rounded-r-sm" {...props} />
+                                                        ),
+                                                        ul: ({node, ...props}) => <ul className="list-disc pl-5 my-2" {...props} />,
+                                                        ol: ({node, ...props}) => <ol className="list-decimal pl-5 my-2" {...props} />,
+                                                        li: ({node, ...props}) => <li className="mb-1" {...props} />
+                                                    }}
+                                                >
+                                                    {message.text}
+                                                </ReactMarkdown>
+                                            </div>
                                         </div>
                                         <span className="text-[10px] text-gray-400 mt-1 px-1">
                                             {message.timestamp.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
