@@ -1,6 +1,12 @@
 import { motion } from 'framer-motion';
+import logoLivera from '../assets/logo/Logo_LIVERA.png'; 
+import chatbotAvatar from '../assets/chatbot/chatbot_AI.jpg';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+    onOpenChat: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onOpenChat }) => {
     const scrollToSection = (sectionId: string) => {
         const element = document.getElementById(sectionId);
         if (element) {
@@ -15,7 +21,7 @@ const Header: React.FC = () => {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm"
         >
-            <div className="px-4 sm:px-6 lg:px-8 py-4">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between">
                     {/* Logo */}
                     <motion.div 
@@ -23,67 +29,53 @@ const Header: React.FC = () => {
                         className="flex items-center space-x-3 cursor-pointer"
                         onClick={() => scrollToSection('hero')}
                     >
-                        <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
-                            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clipRule="evenodd" />
-                            </svg>
-                        </div>
-                        <span className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-                            LIVERA
-                        </span>
+                        <img 
+                            src={logoLivera} 
+                            alt="LIVERA Logo" 
+                            className="w-24 h-24 object-contain" 
+                        />
                     </motion.div>
                     
                     {/* Navigation */}
                     <div className="flex items-center space-x-4 sm:space-x-6">
-                        <nav className="hidden md:flex space-x-6">
-                            <motion.a 
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                href="#process" 
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    scrollToSection('process');
-                                }}
-                                className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 sm:px-6 py-2 rounded-full font-medium hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
+                        <nav className="hidden md:flex items-center space-x-2">
+                            <button 
+                                onClick={() => scrollToSection('process')}
+                                className="text-gray-600 hover:text-green-600 px-4 py-2 rounded-full font-medium transition-colors cursor-pointer"
                             >
                                 Quy trình
-                            </motion.a>
-                            <motion.a 
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                href="#animation" 
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    scrollToSection('animation');
-                                }}
-                                className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 sm:px-6 py-2 rounded-full font-medium hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
+                            </button>
+                            <button 
+                                onClick={() => scrollToSection('animation')}
+                                className="text-gray-600 hover:text-green-600 px-4 py-2 rounded-full font-medium transition-colors cursor-pointer"
                             >
                                 Mô phỏng
-                            </motion.a>
-                            <motion.a 
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                href="#products" 
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    scrollToSection('products');
-                                }}
-                                className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 sm:px-6 py-2 rounded-full font-medium hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
+                            </button>
+                            <button 
+                                onClick={() => scrollToSection('products')}
+                                className="text-gray-600 hover:text-green-600 px-4 py-2 rounded-full font-medium transition-colors cursor-pointer"
                             >
                                 Sản phẩm
-                            </motion.a>
-                            <motion.a 
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                href="#about" 
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    scrollToSection('about');
-                                }}
-                                className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 sm:px-6 py-2 rounded-full font-medium hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
+                            </button>
+                            
+                            {/* Nút Tìm hiểu thêm -> Chuyển đến Hướng dẫn sử dụng */}
+                            <button 
+                                onClick={() => scrollToSection('instructions')}
+                                className="text-gray-600 hover:text-green-600 px-4 py-2 rounded-full font-medium transition-colors cursor-pointer"
                             >
                                 Tìm hiểu thêm
-                            </motion.a>
+                            </button>
+
+                            {/* Nút gọi Chatbot (Nổi bật) */}
+                            <motion.button 
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={onOpenChat}
+                                className="ml-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-2 rounded-full font-bold hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-md flex items-center gap-2 cursor-pointer"
+                            >
+                                <img src={chatbotAvatar} alt="AI Avatar" className="w-6 h-6 rounded-full object-cover" /> {/* Cập nhật Icon ở đây */}
+                                Hỏi AI Cách dùng
+                            </motion.button>
                         </nav>
                     </div>
                 </div>

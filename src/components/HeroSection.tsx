@@ -2,6 +2,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const HeroSection: React.FC = () => {
+    // Hàm cuộn trang mượt mà
+    const scrollToSection = (sectionId: string) => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
         <section id="hero" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 overflow-hidden">
             {/* Background Animation */}
@@ -65,6 +73,7 @@ const HeroSection: React.FC = () => {
                             <motion.button 
                                 whileHover={{ scale: 1.05, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
+                                onClick={() => scrollToSection('process')} // Thêm sự kiện click
                                 className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
                             >
                                 Khám phá quy trình
@@ -72,7 +81,8 @@ const HeroSection: React.FC = () => {
                             <motion.button 
                                 whileHover={{ scale: 1.05, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:from-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
+                                onClick={() => scrollToSection('instructions')} // Thêm sự kiện click
+                                className="bg-white text-green-600 border border-green-200 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-green-50 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
                             >
                                 Tìm hiểu thêm
                             </motion.button>
@@ -87,7 +97,7 @@ const HeroSection: React.FC = () => {
                         >
                             {[
                                 { value: "100%", label: "Hữu cơ" },
-                                { value: "4", label: "Bước quy trình" },
+                                { value: "8", label: "Bước quy trình" }, // Cập nhật lại số bước thành 8 cho khớp với animation
                                 { value: "200:1", label: "Nồng độ" }
                             ].map((stat, index) => (
                                 <motion.div 
@@ -159,7 +169,8 @@ const HeroSection: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 1.5 }}
-                className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+                className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer"
+                onClick={() => scrollToSection('process')}
             >
                 <motion.div 
                     animate={{ y: [0, 10, 0] }}

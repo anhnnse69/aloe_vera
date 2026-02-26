@@ -1,314 +1,191 @@
-import { useRef, useState, useEffect } from 'react';
-import { motion, useInView, useAnimation } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { useInView } from 'framer-motion';
+import { STEPS } from '../utils/gameData';
+import { TabBtn, ResultOverlay } from './GameSharedUI';
+import SortGame from './SortGame';
+import SpeedGame from './SpeedGame';
 
-const AnimationSection: React.FC = () => {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, amount: 0.3 });
-    const controls = useAnimation();
-    const [currentStep, setCurrentStep] = useState(0);
-    const [isAnimating, setIsAnimating] = useState(false);
+type ActiveTab = 'process' | 'sort' | 'speed';
 
-    const animationSteps = [
-        { name: "Gieo hạt", duration: 2000, color: "from-yellow-400 to-orange-500" },
-        { name: "Nảy mầm", duration: 2000, color: "from-green-400 to-green-600" },
-        { name: "Phát triển", duration: 3000, color: "from-green-500 to-emerald-600" },
-        { name: "Thu hoạch", duration: 2000, color: "from-emerald-500 to-teal-600" }
-    ];
+function ProcessViewer() {
+    const [active, setActive] = useState(0);
+    const [animating, setAnimating] = useState(false);
+    const [isAuto, setIsAuto] = useState(false);
+    const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-    const startAnimation = async () => {
-        setIsAnimating(true);
-        setCurrentStep(0);
-        
-        for (let i = 0; i < animationSteps.length; i++) {
-            setCurrentStep(i);
-            await controls.start({
-                scale: [1, 1.2, 1],
-                rotate: [0, 5, -5, 0],
-                transition: { duration: animationSteps[i].duration / 1000, ease: "easeInOut" }
-            });
-        }
-        
-        setIsAnimating(false);
+    const goTo = (idx: number) => {
+        setAnimating(true);
+        setTimeout(() => { setActive(idx); setAnimating(false); }, 140);
     };
 
-    useEffect(() => {
-        if (isInView && !isAnimating) {
-            const timer = setTimeout(() => {
-                startAnimation();
-            }, 1000);
-            return () => clearTimeout(timer);
+    const toggleAuto = () => {
+        if (isAuto) {
+            if (autoRef.current) clearInterval(autoRef.current);
+            setIsAuto(false);
+        } else {
+            setIsAuto(true);
+            autoRef.current = setInterval(() => {
+                setActive(p => (p + 1) % STEPS.length);
+            }, 2000);
         }
-    }, [isInView]);
+    };
 
+    useEffect(() => () => { if (autoRef.current) clearInterval(autoRef.current); }, []);
+
+    const step = STEPS[active];
     return (
-        <section id="animation" ref={ref} className="py-20 bg-gradient-to-b from-white to-green-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
-                >
-                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                        Mô Phỏng Quy Trình
-                        <span className="block text-green-600">Trồng Nha Đam</span>
-                    </h2>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Trải nghiệm quy trình trồng trọt nha đam thông qua animation tương tác và hiệu ứng chân thực
-                    </p>
-                </motion.div>
+        <div>
+            {/* Step pills */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 14, justifyContent: 'center' }}>
+                {STEPS.map((s, i) => (
+                    <button
+                        key={s.id}
+                        onClick={() => goTo(i)}
+                        style={{
+                            padding: '4px 10px',
+                            borderRadius: 99,
+                            border: `1.5px solid ${active === i ? s.color : '#e2e8f0'}`,
+                            background: active === i ? s.color : 'white',
+                            color: active === i ? 'white' : '#64748b',
+                            fontSize: 11,
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            transition: 'all 0.2s',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 3,
+                        }}
+                    >
+                        <span>{s.emoji}</span>{s.name}
+                    </button>
+                ))}
+            </div>
 
-                {/* Animation Display - Full Width */}
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="max-w-4xl mx-auto"
-                >
-                    <div className="relative bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl p-8 shadow-2xl">
-                        {/* Farm Field */}
-                        <div className="relative h-96 bg-gradient-to-b from-green-200 to-green-300 rounded-xl overflow-hidden">
-                            {/* Ground */}
-                            <div className="absolute bottom-0 w-full h-40 bg-gradient-to-t from-amber-200 to-amber-100"></div>
-                            
-                            {/* Aloe Vera Plants with Real Images */}
-                            {[...Array(4)].map((_, i) => (
-                                <motion.div
-                                    key={i}
-                                    animate={controls}
-                                    className="absolute bottom-10"
-                                    style={{
-                                        left: `${15 + i * 20}%`,
-                                    }}
-                                >
-                                    {/* Seed Stage */}
-                                    {currentStep === 0 && (
-                                        <motion.div
-                                            className="w-4 h-4 bg-yellow-400 rounded-full"
-                                            animate={{
-                                                scale: [0.5, 1, 0.5],
-                                                y: [0, -5, 0]
-                                            }}
-                                            transition={{ duration: 2, repeat: Infinity }}
-                                        />
-                                    )}
+            {/* Progress */}
+            <div style={{ height: 4, background: '#f1f5f9', borderRadius: 99, marginBottom: 14, overflow: 'hidden' }}>
+                <div style={{ height: '100%', width: `${((active + 1) / STEPS.length) * 100}%`, background: `linear-gradient(90deg,#16a34a,${step.color})`, borderRadius: 99, transition: 'width 0.5s ease' }} />
+            </div>
 
-                                    {/* Germination Stage */}
-                                    {currentStep === 1 && (
-                                        <motion.div
-                                            className="relative"
-                                            initial={{ opacity: 0, scale: 0 }}
-                                            animate={{ opacity: 1, scale: 0.6 }}
-                                            transition={{ duration: 1 }}
-                                        >
-                                            <img
-                                                src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
-                                                alt="Young Aloe Vera"
-                                                className="w-16 h-16 object-cover rounded-lg shadow-md"
-                                            />
-                                            <motion.div
-                                                className="absolute -top-2 -left-2 text-2xl"
-                                                animate={{
-                                                    rotate: [0, 10, -10, 0],
-                                                    scale: [1, 1.1, 1]
-                                                }}
-                                                transition={{ duration: 2, repeat: Infinity }}
-                                            >
-                                                🌱
-                                            </motion.div>
-                                        </motion.div>
-                                    )}
-
-                                    {/* Growth Stage */}
-                                    {currentStep === 2 && (
-                                        <motion.div
-                                            className="relative"
-                                            initial={{ opacity: 0, scale: 0 }}
-                                            animate={{ opacity: 1, scale: 0.8 }}
-                                            transition={{ duration: 1 }}
-                                        >
-                                            <img
-                                                src="https://res.cloudinary.com/dixqw22t3/image/upload/v1758470837/pngtree-several-aloe-vera-in-the-land-image_1182312_sxnkfa.jpg?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&q=80"
-                                                alt="Growing Aloe Vera"
-                                                className="w-20 h-20 object-cover rounded-lg shadow-md"
-                                            />
-                                            <motion.div
-                                                className="absolute -top-1 -right-1 text-xl"
-                                                animate={{
-                                                    rotate: [0, 15, -15, 0],
-                                                    scale: [1, 1.2, 1]
-                                                }}
-                                                transition={{ duration: 2.5, repeat: Infinity }}
-                                            >
-                                                🌿
-                                            </motion.div>
-                                        </motion.div>
-                                    )}
-
-                                    {/* Mature Stage */}
-                                    {currentStep === 3 && (
-                                        <motion.div
-                                            className="relative"
-                                            initial={{ opacity: 0, scale: 0 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            transition={{ duration: 1 }}
-                                        >
-                                            <img
-                                                src="https://res.cloudinary.com/dixqw22t3/image/upload/v1758468801/images_cix40y.jpg?ixlib=rb-4.0.3&auto=format&fit=crop&w=140&q=80"
-                                                alt="Mature Aloe Vera"
-                                                className="w-24 h-24 object-cover rounded-lg shadow-lg"
-                                            />
-                                            <motion.div
-                                                className="absolute -top-2 -right-2 text-2xl"
-                                                animate={{
-                                                    rotate: [0, 20, -20, 0],
-                                                    scale: [1, 1.3, 1]
-                                                }}
-                                                transition={{ duration: 3, repeat: Infinity }}
-                                            >
-                                                ✂️
-                                            </motion.div>
-                                        </motion.div>
-                                    )}
-                                </motion.div>
-                            ))}
-
-                            {/* Water droplets animation */}
-                            {currentStep > 0 && (
-                                <motion.div
-                                    className="absolute top-8 left-1/2 transform -translate-x-1/2"
-                                    animate={{
-                                        y: [0, 30, 0],
-                                        opacity: [0, 1, 0],
-                                        scale: [0.5, 1, 0.5]
-                                    }}
-                                    transition={{ duration: 2, repeat: Infinity }}
-                                >
-                                    <div className="text-3xl">💧</div>
-                                </motion.div>
-                            )}
-
-                            {/* Multiple water droplets */}
-                            {currentStep > 0 && (
-                                <>
-                                    <motion.div
-                                        className="absolute top-12 left-1/4 text-2xl"
-                                        animate={{
-                                            y: [0, 25, 0],
-                                            opacity: [0, 0.8, 0],
-                                            scale: [0.3, 0.8, 0.3]
-                                        }}
-                                        transition={{ duration: 1.5, repeat: Infinity, delay: 0.3 }}
-                                    >
-                                        💧
-                                    </motion.div>
-                                    <motion.div
-                                        className="absolute top-16 right-1/4 text-2xl"
-                                        animate={{
-                                            y: [0, 25, 0],
-                                            opacity: [0, 0.8, 0],
-                                            scale: [0.3, 0.8, 0.3]
-                                        }}
-                                        transition={{ duration: 1.5, repeat: Infinity, delay: 0.6 }}
-                                    >
-                                        💧
-                                    </motion.div>
-                                </>
-                            )}
-
-                            {/* Sun */}
-                            <motion.div
-                                className="absolute top-6 right-6 text-5xl"
-                                animate={{
-                                    rotate: [0, 360],
-                                    scale: [1, 1.1, 1]
-                                }}
-                                transition={{ duration: 8, repeat: Infinity }}
-                            >
-                                ☀️
-                            </motion.div>
-
-                            {/* Progress Bar */}
-                            <div className="absolute top-4 left-4 right-4">
-                                <div className="bg-white/90 backdrop-blur-sm rounded-full h-3 shadow-lg">
-                                    <motion.div
-                                        className={`h-full rounded-full bg-gradient-to-r ${animationSteps[currentStep]?.color || 'from-gray-400 to-gray-500'}`}
-                                        initial={{ width: 0 }}
-                                        animate={{ width: `${((currentStep + 1) / animationSteps.length) * 100}%` }}
-                                        transition={{ duration: 0.8, ease: "easeOut" }}
-                                    />
-                                </div>
-                                <div className="text-center mt-2">
-                                    <span className="text-sm font-medium text-gray-700">
-                                        {animationSteps[currentStep]?.name || 'Chờ bắt đầu'}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* Real Aloe Vera Image for Harvest Stage */}
-                            {currentStep === 3 && (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ duration: 1, delay: 0.5 }}
-                                    className="absolute bottom-4 left-4 right-4"
-                                >
-                                    <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 shadow-lg">
-                                        <div className="flex items-center justify-center space-x-4">
-                                            <img
-                                                src="https://res.cloudinary.com/dixqw22t3/image/upload/v1758468801/images_cix40y.jpg?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
-                                                alt="Cây nha đam trưởng thành"
-                                                className="w-16 h-16 object-cover rounded-lg shadow-md"
-                                            />
-                                            <div>
-                                                <h4 className="text-lg font-semibold text-green-700">Cây Nha Đam Trưởng Thành</h4>
-                                                <p className="text-sm text-gray-600">Sẵn sàng thu hoạch</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            )}
+            {/* Detail card */}
+            <div
+                style={{
+                    background: step.bg,
+                    borderRadius: 18,
+                    padding: '18px 20px',
+                    border: `2px solid ${step.color}25`,
+                    marginBottom: 14,
+                    opacity: animating ? 0 : 1,
+                    transform: animating ? 'translateY(6px)' : 'translateY(0)',
+                    transition: 'opacity 0.14s, transform 0.14s',
+                }}
+            >
+                <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                    <div style={{ fontSize: 44, lineHeight: 1, flexShrink: 0 }}>{step.emoji}</div>
+                    <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', gap: 7, alignItems: 'center', marginBottom: 5, flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: 10, fontWeight: 800, color: step.color, letterSpacing: 1, opacity: 0.7 }}>BƯỚC {active + 1}/{STEPS.length}</span>
+                            <span style={{ background: step.color, color: 'white', fontSize: 10, fontWeight: 700, padding: '1px 7px', borderRadius: 99 }}>{step.en}</span>
                         </div>
-
-                        {/* Control Panel */}
-                        <div className="mt-8 flex justify-center space-x-4 hover:cursor-pointer">
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={startAnimation}
-                                disabled={isAnimating}
-                                className={`px-8 py-4 rounded-full font-medium transition-all duration-300 hover:cursor-pointer ${
-                                    isAnimating 
-                                        ? 'bg-gray-400 text-gray-200 cursor-not-allowed' 
-                                        : 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700 shadow-lg hover:shadow-xl'
-                                }`}
-                            >
-                                {isAnimating ? 'Đang chạy...' : 'Bắt đầu mô phỏng'}
-                            </motion.button>
-                        </div>
-
-                        {/* Stats */}
-                        <div className="mt-6 grid grid-cols-3 gap-4">
-                            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg">
-                                <div className="text-2xl font-bold text-green-600">{currentStep + 1}/4</div>
-                                <div className="text-gray-600 text-sm">Bước hiện tại</div>
-                            </div>
-                            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg">
-                                <div className="text-2xl font-bold text-blue-600">
-                                    {animationSteps[currentStep]?.duration ? `${animationSteps[currentStep].duration / 1000}s` : '0s'}
-                                </div>
-                                <div className="text-gray-600 text-sm">Thời gian</div>
-                            </div>
-                            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg">
-                                <div className="text-2xl font-bold text-emerald-600">
-                                    {currentStep === 3 ? '100%' : `${(currentStep + 1) * 25}%`}
-                                </div>
-                                <div className="text-gray-600 text-sm">Hoàn thành</div>
-                            </div>
+                        <h3 style={{ fontSize: 18, fontWeight: 900, color: '#0f172a', margin: '0 0 5px' }}>{step.name}</h3>
+                        <p style={{ fontSize: 13, color: '#475569', margin: '0 0 10px', lineHeight: 1.6 }}>{step.desc}</p>
+                        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                            <span style={{ background: 'white', border: `1px solid ${step.color}35`, borderRadius: 7, padding: '3px 9px', fontSize: 11, color: step.color, fontWeight: 600 }}>💡 {step.hint}</span>
+                            <span style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: 7, padding: '3px 9px', fontSize: 11, color: '#64748b', fontWeight: 600 }}>✅ {step.standard}</span>
                         </div>
                     </div>
-                </motion.div>
+                </div>
+            </div>
+
+            {/* Nav */}
+            <div style={{ display: 'flex', gap: 8 }}>
+                <button onClick={() => goTo(Math.max(0, active - 1))} disabled={active === 0}
+                    style={{ padding: '8px 14px', borderRadius: 10, border: '1.5px solid #e2e8f0', background: 'white', color: '#64748b', fontWeight: 700, fontSize: 13, cursor: active === 0 ? 'not-allowed' : 'pointer', opacity: active === 0 ? 0.4 : 1 }}>
+                    ← Trước
+                </button>
+                <button onClick={toggleAuto}
+                    style={{ flex: 1, padding: '8px', borderRadius: 10, border: `1.5px solid ${isAuto ? '#dc2626' : '#16a34a'}`, background: isAuto ? '#fef2f2' : '#f0fdf4', color: isAuto ? '#dc2626' : '#16a34a', fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>
+                    {isAuto ? '⏸ Dừng' : '▶ Tự động chạy'}
+                </button>
+                <button onClick={() => goTo(Math.min(STEPS.length - 1, active + 1))} disabled={active === STEPS.length - 1}
+                    style={{ padding: '8px 14px', borderRadius: 10, border: '1.5px solid #e2e8f0', background: 'white', color: '#64748b', fontWeight: 700, fontSize: 13, cursor: active === STEPS.length - 1 ? 'not-allowed' : 'pointer', opacity: active === STEPS.length - 1 ? 0.4 : 1 }}>
+                    Tiếp →
+                </button>
+            </div>
+        </div>
+    );
+}
+
+const AnimationSection: React.FC = () => {
+    const ref = useRef<HTMLElement>(null);
+    const isInView = useInView(ref, { once: true, amount: 0.1 });
+
+    const [activeTab, setActiveTab] = useState<ActiveTab>('process');
+    const [gameKey, setGameKey] = useState(0);
+    const [gameResult, setGameResult] = useState<number | null>(null);
+
+    const handleFinish = (score: number) => setGameResult(score);
+    const retryGame = () => { setGameResult(null); setGameKey(k => k + 1); };
+    const switchTab = (tab: ActiveTab) => { setActiveTab(tab); setGameResult(null); setGameKey(k => k + 1); };
+
+    return (
+        <section id="animation" ref={ref} style={{ padding: '80px 0', background: 'linear-gradient(180deg,#ffffff 0%,#f0fdf4 50%,#ffffff 100%)' }}>
+            <style>{`
+        @keyframes shakeX { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+        @keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+      `}</style>
+
+            <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 16px' }}>
+
+                {/* Header */}
+                <div style={{ textAlign: 'center', marginBottom: 36, opacity: isInView ? 1 : 0, transform: isInView ? 'none' : 'translateY(24px)', transition: 'opacity 0.6s, transform 0.6s' }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#dcfce7', color: '#15803d', borderRadius: 99, padding: '5px 14px', fontSize: 12, fontWeight: 700, marginBottom: 12 }}>
+                        🌿 LIVERA – Aloe Vera Powder
+                    </span>
+                    <h2 style={{ fontSize: 'clamp(26px,5vw,42px)', fontWeight: 900, color: '#0f172a', margin: '0 0 8px', letterSpacing: -1 }}>
+                        Dây Chuyền{' '}
+                        <span style={{ background: 'linear-gradient(90deg,#16a34a,#0284c7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Sản Xuất</span>
+                    </h2>
+                    <p style={{ fontSize: 15, color: '#64748b', maxWidth: 460, margin: '0 auto' }}>
+                        Khám phá 8 công đoạn và thử thách bản thân với mini-game
+                    </p>
+                </div>
+
+                {/* Card */}
+                <div style={{ background: 'white', borderRadius: 22, boxShadow: '0 4px 36px rgba(0,0,0,0.07)', border: '1px solid #f1f5f9', overflow: 'hidden', opacity: isInView ? 1 : 0, transform: isInView ? 'none' : 'translateY(24px)', transition: 'opacity 0.7s 0.2s, transform 0.7s 0.2s' }}>
+
+                    {/* Tabs */}
+                    <div style={{ padding: '14px 14px 0', background: '#fafafa', borderBottom: '1px solid #f1f5f9' }}>
+                        <div style={{ display: 'flex', gap: 7, marginBottom: 14 }}>
+                            <TabBtn active={activeTab === 'process'} onClick={() => switchTab('process')} emoji="🎬" label="Quy trình" color="#16a34a" />
+                            <TabBtn active={activeTab === 'sort'} onClick={() => switchTab('sort')} emoji="🔀" label="Game sắp xếp" color="#7c3aed" />
+                            <TabBtn active={activeTab === 'speed'} onClick={() => switchTab('speed')} emoji="⚡" label="Game tốc độ" color="#d97706" />
+                        </div>
+                    </div>
+
+                    {/* Body */}
+                    <div style={{ padding: 18, minHeight: 400, animation: 'slideUp 0.28s ease-out' }} key={`${activeTab}-${gameKey}`}>
+                        {activeTab === 'process' && <ProcessViewer />}
+                        {activeTab === 'sort' && (
+                            gameResult !== null
+                                ? <ResultOverlay score={gameResult} onRetry={retryGame} onBack={() => switchTab('process')} />
+                                : <SortGame key={gameKey} onFinish={handleFinish} />
+                        )}
+                        {activeTab === 'speed' && (
+                            gameResult !== null
+                                ? <ResultOverlay score={gameResult} onRetry={retryGame} onBack={() => switchTab('process')} />
+                                : <SpeedGame key={gameKey} onFinish={handleFinish} />
+                        )}
+                    </div>
+                </div>
+
+                {/* Chips */}
+                <div style={{ marginTop: 14, display: 'flex', flexWrap: 'wrap', gap: 7, justifyContent: 'center', opacity: isInView ? 1 : 0, transition: 'opacity 0.6s 0.5s' }}>
+                    {[{ emoji: '🌿', text: 'ĐBSCL nguyên liệu' }, { emoji: '❄️', text: 'Sấy thăng hoa' }, { emoji: '🔍', text: 'QR Code 100%' }, { emoji: '🏅', text: 'HACCP / ISO' }].map((chip, i) => (
+                        <span key={i} style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: 99, padding: '4px 11px', fontSize: 11, fontWeight: 600, color: '#475569', display: 'flex', alignItems: 'center', gap: 4 }}>
+                            {chip.emoji} {chip.text}
+                        </span>
+                    ))}
+                </div>
             </div>
         </section>
     );

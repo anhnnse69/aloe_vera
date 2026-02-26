@@ -1,90 +1,63 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 const ProductsSection: React.FC = () => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, amount: 0.3 });
-    const [selectedCategory, setSelectedCategory] = useState('all');
+    const isInView = useInView(ref, { once: true, amount: 0.2 });
 
-    const categories = [
-        { id: 'all', name: 'Tất cả', icon: '🌿' },
-        { id: 'fresh', name: 'Tươi', icon: '🥬' },
-        { id: 'processed', name: 'Chế biến', icon: '🧴' },
-        { id: 'cosmetics', name: 'Mỹ phẩm', icon: '💄' }
-    ];
-
-    const products = [
+    const specs = [
         {
-            id: 1,
-            name: 'Nha đam tươi nguyên lá',
-            category: 'fresh',
-            image: '🌱',
-            description: 'Nha đam tươi 100% tự nhiên, không chất bảo quản',
-            price: '25,000đ/kg',
-            benefits: ['Làm mát cơ thể', 'Tăng cường miễn dịch', 'Làm đẹp da'],
-            rating: 4.9,
-            reviews: 128
+            title: "Nhiệt độ sấy & Độ ẩm",
+            icon: "🌡️",
+            details: [
+                "Công nghệ sấy: Thăng hoa / Sấy lạnh",
+                "Nhiệt độ kiểm soát: ≤ 80°C",
+                "Độ ẩm thành phẩm: < 5%",
+                "Bảo toàn tối đa Polysaccharide & Enzyme"
+            ]
         },
         {
-            id: 2,
-            name: 'Gel nha đam nguyên chất',
-            category: 'processed',
-            image: '🧴',
-            description: 'Gel nha đam 99% nguyên chất, an toàn cho da',
-            price: '45,000đ/chai',
-            benefits: ['Dưỡng ẩm da', 'Làm dịu vết thương', 'Chống lão hóa'],
-            rating: 4.8,
-            reviews: 95
+            title: "Hướng dẫn sử dụng (HDSD)",
+            icon: "📝",
+            details: [
+                "Nước giải khát: Pha với nước lọc/ấm, thêm mật ong hoặc chanh.",
+                "Làm đẹp (Mặt nạ): Trộn bột với sữa chua không đường hoặc nước hoa hồng.",
+                "Thực phẩm bổ sung: Trộn vào sinh tố, ngũ cốc hoặc dùng làm nguyên liệu làm bánh."
+            ]
         },
         {
-            id: 3,
-            name: 'Mặt nạ nha đam',
-            category: 'cosmetics',
-            image: '💄',
-            description: 'Mặt nạ nha đam tự nhiên, phù hợp mọi loại da',
-            price: '35,000đ/túi',
-            benefits: ['Làm sạch da', 'Thu nhỏ lỗ chân lông', 'Cấp ẩm sâu'],
-            rating: 4.7,
-            reviews: 76
-        },
-        {
-            id: 4,
-            name: 'Nước ép nha đam',
-            category: 'processed',
-            image: '🥤',
-            description: 'Nước ép nha đam tươi, bổ sung vitamin và khoáng chất',
-            price: '30,000đ/chai',
-            benefits: ['Giải nhiệt', 'Thanh lọc cơ thể', 'Tăng cường sức khỏe'],
-            rating: 4.6,
-            reviews: 89
-        },
-        {
-            id: 5,
-            name: 'Kem dưỡng nha đam',
-            category: 'cosmetics',
-            image: '🧴',
-            description: 'Kem dưỡng da mặt với chiết xuất nha đam tự nhiên',
-            price: '65,000đ/tuýp',
-            benefits: ['Dưỡng ẩm 24h', 'Chống nắng', 'Làm mờ vết thâm'],
-            rating: 4.8,
-            reviews: 112
-        },
-        {
-            id: 6,
-            name: 'Nha đam sấy khô',
-            category: 'processed',
-            image: '🍃',
-            description: 'Nha đam sấy khô tự nhiên, bảo quản lâu dài',
-            price: '40,000đ/túi',
-            benefits: ['Dễ bảo quản', 'Giữ nguyên dưỡng chất', 'Đa dạng sử dụng'],
-            rating: 4.5,
-            reviews: 67
+            title: "Liều lượng & Hạn sử dụng",
+            icon: "⚖️",
+            details: [
+                "Liều lượng khuyên dùng: 3-5 gram (khoảng 1 muỗng cà phê) mỗi ngày.",
+                "Hạn sử dụng (HSD): 12 - 18 tháng kể từ ngày sản xuất.",
+                "Bảo quản: Nhiệt độ phòng (25 ± 2°C), độ ẩm < 65%, tránh ánh nắng trực tiếp."
+            ]
         }
     ];
 
-    const filteredProducts = selectedCategory === 'all' 
-        ? products 
-        : products.filter(product => product.category === selectedCategory);
+    const socialLinks = [
+        {
+            name: "Facebook Fanpage",
+            icon: (
+                <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
+            ),
+            url: "https://www.facebook.com/profile.php?id=61581147419635",
+            color: "bg-blue-600 hover:bg-blue-700"
+        },
+        {
+            name: "TikTok Channel",
+            icon: (
+                <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                </svg>
+            ),
+            url: "#", // Thêm link TikTok thật của bạn vào đây
+            color: "bg-black hover:bg-gray-800"
+        }
+    ];
 
     return (
         <section id="products" ref={ref} className="py-20 bg-gradient-to-b from-green-50 to-white">
@@ -96,146 +69,103 @@ const ProductsSection: React.FC = () => {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                        Bộ Sưu Tập Sản Phẩm
-                        <span className="block text-green-600">Nha Đam Chất Lượng</span>
+                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                        Thông Số Kỹ Thuật
+                        <span className="block text-green-600 mt-2">& Chỉ Tiêu Sản Phẩm</span>
                     </h2>
                     <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Khám phá các sản phẩm nha đam đa dạng, từ nguyên liệu tươi đến các sản phẩm chế biến cao cấp
+                        Sản phẩm Bột Nha Đam LIVERA - Nature's Purest được nghiên cứu và phát triển với quy trình chuẩn hóa, đảm bảo chất lượng và an toàn.
                     </p>
                 </motion.div>
 
-                {/* Category Filter */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="flex flex-wrap justify-center gap-4 mb-12"
-                >
-                    {categories.map((category) => (
-                        <motion.button
-                            key={category.id}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => setSelectedCategory(category.id)}
-                            className={`px-6 py-3 rounded-full font-medium transition-all duration-300 cursor-pointer ${
-                                selectedCategory === category.id
-                                    ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg'
-                                    : 'bg-white text-gray-600 hover:bg-green-50 hover:text-green-600 shadow-md hover:shadow-lg'
-                            }`}
-                        >
-                            <span className="mr-2">{category.icon}</span>
-                            {category.name}
-                        </motion.button>
-                    ))}
-                </motion.div>
-
-                {/* Products Grid */}
+                {/* Technical Specs Grid */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16"
                 >
-                    {filteredProducts.map((product, index) => (
+                    {specs.map((spec, index) => (
                         <motion.div
-                            key={product.id}
-                            initial={{ opacity: 0, y: 50 }}
-                            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                            key={index}
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                             transition={{ duration: 0.6, delay: 0.1 * index }}
-                            whileHover={{ y: -10, scale: 1.02 }}
-                            className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group"
+                            whileHover={{ y: -5 }}
+                            className="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-green-500"
                         >
-                            {/* Product Image */}
-                            <div className="relative h-48 bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center">
-                                <motion.div
-                                    className="text-6xl"
-                                    whileHover={{ scale: 1.2, rotate: 10 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    {product.image}
-                                </motion.div>
-                                
-                                {/* Rating Badge */}
-                                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 flex items-center space-x-1">
-                                    <span className="text-yellow-500">⭐</span>
-                                    <span className="text-sm font-medium">{product.rating}</span>
+                            <div className="flex items-center space-x-4 mb-6">
+                                <div className="text-4xl bg-green-100 p-3 rounded-full">
+                                    {spec.icon}
                                 </div>
-                            </div>
-
-                            {/* Product Info */}
-                            <div className="p-6">
-                                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
-                                    {product.name}
+                                <h3 className="text-2xl font-bold text-gray-800">
+                                    {spec.title}
                                 </h3>
-                                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                                    {product.description}
-                                </p>
-                                
-                                {/* Benefits */}
-                                <div className="mb-4">
-                                    <h4 className="text-sm font-semibold text-gray-700 mb-2">Lợi ích:</h4>
-                                    <div className="flex flex-wrap gap-1">
-                                        {product.benefits.map((benefit, idx) => (
-                                            <span
-                                                key={idx}
-                                                className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"
-                                            >
-                                                {benefit}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Price and Reviews */}
-                                <div className="flex items-center justify-between mb-4">
-                                    <span className="text-2xl font-bold text-green-600">{product.price}</span>
-                                    <span className="text-sm text-gray-500">{product.reviews} đánh giá</span>
-                                </div>
-
-                                {/* Action Buttons */}
-                                <div className="flex space-x-3">
-                                    <motion.button
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-2 px-4 rounded-lg font-medium hover:from-green-600 hover:to-emerald-700 transition-all duration-300 cursor-pointer"
-                                    >
-                                        Xem chi tiết
-                                    </motion.button>
-                                    <motion.button
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="px-4 py-2 border border-green-500 text-green-600 rounded-lg font-medium hover:bg-green-50 transition-all duration-300 cursor-pointer"
-                                    >
-                                        ❤️
-                                    </motion.button>
-                                </div>
                             </div>
+                            <ul className="space-y-4">
+                                {spec.details.map((detail, idx) => (
+                                    <li key={idx} className="flex items-start">
+                                        <svg className="w-6 h-6 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        <span className="text-gray-600 leading-relaxed">{detail}</span>
+                                    </li>
+                                ))}
+                            </ul>
                         </motion.div>
                     ))}
                 </motion.div>
 
-                {/* Call to Action */}
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                    transition={{ duration: 0.8, delay: 0.8 }}
-                    className="text-center mt-16"
-                >
-                    <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl p-8 text-white">
-                        <h3 className="text-3xl font-bold mb-4">Quan tâm đến sản phẩm của chúng tôi?</h3>
-                        <p className="text-xl mb-6 opacity-90">
-                            Liên hệ ngay để được tư vấn và đặt hàng sản phẩm nha đam chất lượng cao
+                {/* Social Connect & Product Image */}
+                <div className="grid lg:grid-cols-2 gap-12 items-center bg-white rounded-3xl p-8 md:p-12 shadow-2xl border border-gray-100">
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        className="space-y-6"
+                    >
+                        <h3 className="text-3xl font-bold text-gray-900">
+                            Kết nối với cộng đồng <span className="text-green-600">LIVERA</span>
+                        </h3>
+                        <p className="text-lg text-gray-600">
+                            Theo dõi chúng tôi trên các nền tảng mạng xã hội để cập nhật những công thức DIY làm đẹp, mẹo pha chế thức uống dinh dưỡng và câu chuyện về hành trình phát triển bền vững từ cây nha đam.
                         </p>
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="bg-white text-green-600 px-8 py-3 rounded-full font-bold text-lg hover:bg-green-50 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer"
-                        >
-                            Liên hệ ngay
-                        </motion.button>
-                    </div>
-                </motion.div>
+                        
+                        <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                            {socialLinks.map((social, idx) => (
+                                <a
+                                    key={idx}
+                                    href={social.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`flex items-center justify-center space-x-3 text-white px-8 py-4 rounded-full font-bold transition-all duration-300 transform hover:scale-105 shadow-lg ${social.color}`}
+                                >
+                                    {social.icon}
+                                    <span>{social.name}</span>
+                                </a>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
+                        transition={{ duration: 0.8, delay: 0.6 }}
+                        className="relative"
+                    >
+                        {/* Placeholder hình ảnh sản phẩm thực tế */}
+                        <div className="aspect-square rounded-2xl overflow-hidden shadow-lg relative group">
+                            <div className="absolute inset-0 bg-gradient-to-br from-green-200 to-emerald-300 flex flex-col items-center justify-center text-green-800 p-8 text-center">
+                                <span className="text-8xl mb-4">🌿</span>
+                                <h4 className="text-2xl font-bold mb-2">Bột Nha Đam 3-IN-1</h4>
+                                <p className="font-medium">Giải khát - Làm đẹp - Thực phẩm</p>
+                                <div className="absolute top-4 right-4 bg-white px-4 py-1 rounded-full text-sm font-bold text-green-600 shadow-md">
+                                    Dự án Khởi nghiệp
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
             </div>
         </section>
     );
