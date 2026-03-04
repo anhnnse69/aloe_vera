@@ -131,7 +131,7 @@ const HeroSection: React.FC = () => {
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.8, delay: 0.6 }}
-                                src="https://res.cloudinary.com/dixqw22t3/image/upload/v1758468225/1_92936_uib1no.jpg"
+                                src="https://res.cloudinary.com/dixqw22t3/image/upload/v1772612077/b%E1%BB%99t_nha_%C4%90AM_-_LIVERA_vx7heh.jpg"
                                 alt="Cây nha đam tươi"
                                 className="w-full h-80 sm:h-96 lg:h-[500px] object-cover rounded-3xl shadow-2xl group-hover:shadow-3xl transition-all duration-500"
                             />

@@ -130,7 +130,7 @@ const ProductsSection: React.FC = () => {
                         <p className="text-lg text-gray-600">
                             Theo dõi chúng tôi trên các nền tảng mạng xã hội để cập nhật những công thức DIY làm đẹp, mẹo pha chế thức uống dinh dưỡng và câu chuyện về hành trình phát triển bền vững từ cây nha đam.
                         </p>
-                        
+
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             {socialLinks.map((social, idx) => (
                                 <a
@@ -153,15 +153,15 @@ const ProductsSection: React.FC = () => {
                         transition={{ duration: 0.8, delay: 0.6 }}
                         className="relative"
                     >
-                        {/* Placeholder hình ảnh sản phẩm thực tế */}
+                        {/* Hình ảnh sản phẩm thực tế LIVERA */}
                         <div className="aspect-square rounded-2xl overflow-hidden shadow-lg relative group">
-                            <div className="absolute inset-0 bg-gradient-to-br from-green-200 to-emerald-300 flex flex-col items-center justify-center text-green-800 p-8 text-center">
-                                <span className="text-8xl mb-4">🌿</span>
-                                <h4 className="text-2xl font-bold mb-2">Bột Nha Đam 3-IN-1</h4>
-                                <p className="font-medium">Giải khát - Làm đẹp - Thực phẩm</p>
-                                <div className="absolute top-4 right-4 bg-white px-4 py-1 rounded-full text-sm font-bold text-green-600 shadow-md">
-                                    Dự án Khởi nghiệp
-                                </div>
+                            <img
+                                src="https://res.cloudinary.com/dixqw22t3/image/upload/v1772612181/z7185055253651_9fab3004af7f33946a895f93037b6fdc_yvviy3.jpg"
+                                alt="Bột Nha Đam LIVERA 3-IN-1"
+                                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+                            />
+                            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-1 rounded-full text-sm font-bold text-green-600 shadow-md">
+                                Dự án Khởi nghiệp
                             </div>
                         </div>
                     </motion.div>
