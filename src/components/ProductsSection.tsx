@@ -20,19 +20,44 @@ const ProductsSection: React.FC = () => {
             title: "Hướng dẫn sử dụng (HDSD)",
             icon: "📝",
             details: [
-                "Nước giải khát: Pha với nước lọc/ấm, thêm mật ong hoặc chanh.",
+                "Nước giải khát: Pha 3–5g bột với 200ml nước ấm, thêm mật ong hoặc chanh.",
                 "Làm đẹp (Mặt nạ): Trộn bột với sữa chua không đường hoặc nước hoa hồng.",
-                "Thực phẩm bổ sung: Trộn vào sinh tố, ngũ cốc hoặc dùng làm nguyên liệu làm bánh."
+                "Thực phẩm bổ sung: Trộn vào sinh tố, sữa chua, ngũ cốc hoặc làm nguyên liệu bánh."
             ]
         },
         {
             title: "Liều lượng & Hạn sử dụng",
             icon: "⚖️",
             details: [
-                "Liều lượng khuyên dùng: 3-5 gram (khoảng 1 muỗng cà phê) mỗi ngày.",
-                "Hạn sử dụng (HSD): 12 - 18 tháng kể từ ngày sản xuất.",
-                "Bảo quản: Nhiệt độ phòng (25 ± 2°C), độ ẩm < 65%, tránh ánh nắng trực tiếp."
+                "Liều lượng khuyên dùng: 3–5 gram (khoảng 1 muỗng cà phê) mỗi ngày.",
+                "Hạn sử dụng (HSD): 3 tháng kể từ ngày sản xuất (sản phẩm MVP thử nghiệm).",
+                "Bảo quản: Nhiệt độ phòng (25 ± 2°C), độ ẩm < 65%, tránh ánh nắng trực tiếp.",
+                "Sau khi mở nắp: Dùng trong vòng 30 ngày, đậy kín sau mỗi lần sử dụng."
             ]
+        }
+    ];
+
+    const warnings = [
+        {
+            icon: "❤️",
+            title: "Bệnh Tim Mạch",
+            color: "border-red-400 bg-red-50",
+            titleColor: "text-red-700",
+            content: "Nha đam có thể tương tác với một số thuốc tim mạch (digoxin, warfarin). Dùng liều cao có thể gây mất cân bằng điện giải (kali) ảnh hưởng đến nhịp tim. Người mắc bệnh tim cần hỏi ý kiến bác sĩ trước khi dùng."
+        },
+        {
+            icon: "🩺",
+            title: "Huyết Áp Cao",
+            color: "border-orange-400 bg-orange-50",
+            titleColor: "text-orange-700",
+            content: "Nha đam có tác dụng lợi tiểu nhẹ, có thể làm tăng hiệu quả thuốc hạ huyết áp, dẫn tới tụt huyết áp đột ngột. Người đang điều trị huyết áp cần theo dõi chỉ số và tham khảo bác sĩ trước khi dùng thường xuyên."
+        },
+        {
+            icon: "🩸",
+            title: "Tiểu Đường",
+            color: "border-yellow-400 bg-yellow-50",
+            titleColor: "text-yellow-700",
+            content: "Bột nha đam có khả năng hạ đường huyết. Khi kết hợp với thuốc tiểu đường, nguy cơ hạ đường huyết quá mức (hypoglycemia) có thể xảy ra. Người tiểu đường cần theo dõi đường huyết chặt chẽ và tham khảo bác sĩ trước khi sử dụng."
         }
     ];
 
@@ -114,6 +139,64 @@ const ProductsSection: React.FC = () => {
                             </ul>
                         </motion.div>
                     ))}
+                </motion.div>
+
+                {/* Health Warnings & Contraindications */}
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+                    transition={{ duration: 0.7, delay: 0.4 }}
+                    className="mb-10"
+                >
+                    <div className="text-center mb-8">
+                        <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                            ⚠️ Lưu Ý Dành Cho Người Có <span className="text-red-600">Bệnh Nền</span>
+                        </h3>
+                        <p className="text-gray-500 max-w-2xl mx-auto">
+                            Bột nha đam là thực phẩm thiên nhiên an toàn, nhưng người đang mắc các bệnh nền dưới đây nên tham khảo bác sĩ trước khi sử dụng thường xuyên.
+                        </p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {warnings.map((w, idx) => (
+                            <motion.div
+                                key={idx}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                                transition={{ duration: 0.5, delay: 0.5 + idx * 0.1 }}
+                                className={`rounded-2xl border-l-4 p-6 shadow-md ${w.color}`}
+                            >
+                                <div className="flex items-center gap-3 mb-3">
+                                    <span className="text-3xl">{w.icon}</span>
+                                    <h4 className={`text-lg font-bold ${w.titleColor}`}>{w.title}</h4>
+                                </div>
+                                <p className="text-gray-700 text-sm leading-relaxed">{w.content}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </motion.div>
+
+                {/* Overdose Warning Banner */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.97 }}
+                    transition={{ duration: 0.6, delay: 0.8 }}
+                    className="mb-12 bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-2xl p-6 md:p-8 shadow-md"
+                >
+                    <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+                        <div className="text-5xl flex-shrink-0">🚨</div>
+                        <div className="flex-1">
+                            <h4 className="text-xl font-bold text-red-700 mb-2">Giải Pháp Khi Uống Quá Nhiều</h4>
+                            <p className="text-gray-700 leading-relaxed mb-3">
+                                Uống quá liều khuyên dùng (trên 10g/ngày) có thể gây ra: <strong>buồn nôn, tiêu chảy, đau bụng co thắt, mất cân bằng điện giải</strong>. Trẻ em, phụ nữ mang thai và người đang cho con bú <strong>không nên sử dụng</strong>.
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                                <span className="inline-flex items-center gap-2 bg-red-100 text-red-700 font-semibold px-4 py-2 rounded-full text-sm border border-red-300">
+                                    🏥 Nếu có triệu chứng bất thường — hãy đến <strong className="ml-1">phòng khám gần nhất ngay lập tức</strong>
+                                </span>
+                                <span className="text-gray-500 text-sm">Hotline y tế: <strong>1800 9090</strong> (miễn phí)</span>
+                            </div>
+                        </div>
+                    </div>
                 </motion.div>
 
                 {/* Social Connect & Product Image */}

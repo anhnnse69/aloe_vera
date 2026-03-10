@@ -15,17 +15,17 @@ const InstructionsSection: React.FC<InstructionsSectionProps> = ({ onOpenChat })
         {
             icon: "🥤",
             title: "Pha Chế Giải Khát",
-            desc: "Pha 1 muỗng cà phê (3-5g) bột nha đam với 200ml nước ấm. Bạn có thể thêm mật ong, chanh, hạt chia hoặc đá tùy khẩu vị để có một ly nước thanh lọc cơ thể."
+            desc: "Pha 1 muỗng cà phê (3–5g) bột nha đam với 200ml nước ấm hoặc lạnh. Có thể thêm mật ong, chanh, hạt chia hoặc đá viên. Dùng để thanh mát, giải độc cơ thể mỗi ngày. Không vượt quá 10g/ngày."
         },
         {
             icon: "✨",
             title: "Mặt Nạ Dưỡng Da",
-            desc: "Trộn 1 muỗng bột nha đam với sữa chua không đường hoặc nước hoa hồng tạo thành hỗn hợp sệt. Đắp lên mặt 15-20 phút để cấp ẩm sâu và làm dịu da."
+            desc: "Trộn 1 muỗng bột nha đam (3–5g) với sữa chua không đường hoặc nước hoa hồng thành hỗn hợp sệt. Đắp lên mặt 15–20 phút để cấp ẩm sâu và làm dịu da. Rửa sạch bằng nước ấm."
         },
         {
             icon: "🥗",
             title: "Thực Phẩm Bổ Sung",
-            desc: "Thêm trực tiếp 3-5g bột vào sinh tố, sữa chua, ngũ cốc buổi sáng hoặc dùng làm nguyên liệu làm bánh (rau câu, thạch) để tăng cường vitamin."
+            desc: "Thêm 3–5g bột vào sinh tố, sữa chua, ngũ cốc buổi sáng hoặc dùng làm nguyên liệu bánh (rau câu, thạch) để tăng cường vitamin và khoáng chất tự nhiên từ nha đam."
         }
     ];
 
@@ -73,6 +73,31 @@ const InstructionsSection: React.FC<InstructionsSectionProps> = ({ onOpenChat })
                     ))}
                 </motion.div>
 
+                {/* Health Advisory Box */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                    className="mb-10 bg-amber-50 border border-amber-300 rounded-2xl p-6 md:p-8 shadow-sm"
+                >
+                    <div className="flex items-center gap-3 mb-4">
+                        <span className="text-3xl">⚠️</span>
+                        <h3 className="text-xl font-bold text-amber-800">Lưu Ý Quan Trọng Trước Khi Sử Dụng</h3>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-sm text-gray-700">
+                        <ul className="space-y-2">
+                            <li className="flex items-start gap-2"><span className="text-red-500 font-bold mt-0.5">❤️</span><span><strong>Bệnh tim mạch:</strong> Nha đam có thể tương tác với thuốc tim (digoxin, warfarin). Hỏi bác sĩ trước khi dùng thường xuyên.</span></li>
+                            <li className="flex items-start gap-2"><span className="text-orange-500 font-bold mt-0.5">🩺</span><span><strong>Huyết áp cao:</strong> Có thể tăng tác dụng thuốc hạ áp, gây tụt huyết áp. Cần theo dõi và tham khảo bác sĩ.</span></li>
+                            <li className="flex items-start gap-2"><span className="text-yellow-600 font-bold mt-0.5">🩸</span><span><strong>Tiểu đường:</strong> Nha đam hạ đường huyết — kết hợp thuốc tiểu đường có thể gây hạ đường huyết quá mức. Cần giám sát chặt chẽ.</span></li>
+                        </ul>
+                        <ul className="space-y-2">
+                            <li className="flex items-start gap-2"><span className="text-green-600 font-bold mt-0.5">📅</span><span><strong>Hạn sử dụng:</strong> 3 tháng kể từ ngày sản xuất. Sau khi mở nắp: dùng trong 30 ngày.</span></li>
+                            <li className="flex items-start gap-2"><span className="text-blue-600 font-bold mt-0.5">🚫</span><span><strong>Không dùng cho:</strong> Phụ nữ mang thai, đang cho con bú, trẻ em dưới 12 tuổi.</span></li>
+                            <li className="flex items-start gap-2"><span className="text-red-600 font-bold mt-0.5">🚨</span><span><strong>Uống quá liều:</strong> Buồn nôn, tiêu chảy, đau bụng → <strong>đến phòng khám gần nhất ngay</strong> hoặc gọi <strong>1800 9090</strong>.</span></li>
+                        </ul>
+                    </div>
+                </motion.div>
+
                 {/* AI Chatbot Call To Action */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
@@ -94,7 +119,7 @@ const InstructionsSection: React.FC<InstructionsSectionProps> = ({ onOpenChat })
                                 Đừng lo! Hệ thống của chúng tôi đã được tích hợp <strong>Trợ lý ảo AI (Chatbot)</strong> thông minh. Chỉ cần nhắn tin, AI sẽ lập tức gợi ý cho bạn các công thức mix đồ uống, tỷ lệ đắp mặt nạ chuẩn xác nhất cho từng loại da.
                             </p>
                         </div>
-                        
+
                         <div className="flex-shrink-0">
                             <motion.button
                                 whileHover={{ scale: 1.05 }}

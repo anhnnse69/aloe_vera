@@ -3,61 +3,61 @@ import React from 'react';
 const Products: React.FC = () => {
     const products = [
         {
-            name: "Pure Aloe Vera Powder",
-            description: "100% organic aloe vera powder with maximum nutrient concentration",
-            price: "$29.99",
-            features: ["200:1 Concentrate", "100% Organic", "No Additives", "250g Package"],
-            image: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-            badge: "Best Seller"
+            name: "Bột Nha Đam LIVERA 100g",
+            description: "100% bột nha đam tinh khiết từ vùng ĐBSCL – đa năng cho uống, làm đẹp, bổ sung dinh dưỡng.",
+            price: "150.000đ",
+            features: ["100% thuần khiết, không phụ gia", "Sấy thăng hoa – giữ nguyên dưỡng chất", "QR truy xuất nguồn gốc", "Gói 100g – dùng khoảng 20–30 ngày"],
+            image: "https://res.cloudinary.com/dixqw22t3/image/upload/v1772612181/z7185055253651_9fab3004af7f33946a895f93037b6fdc_yvviy3.jpg",
+            badge: "Bán Chạy"
         },
         {
-            name: "Aloe Vera Capsules",
-            description: "Convenient capsules for easy daily consumption",
-            price: "$24.99",
-            features: ["500mg per capsule", "60 capsules", "Easy to swallow", "Pure powder"],
-            image: "https://images.unsplash.com/photo-1597317002281-847004a40d3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-            badge: "Popular"
+            name: "Bột Nha Đam LIVERA 500g",
+            description: "Phiên bản gia đình – tiết kiệm hơn, phù hợp dùng lâu dài và cung cấp cho spa, quán nước.",
+            price: "600.000đ",
+            features: ["Tiết kiệm 20% so với lẻ", "Dùng cho cả gia đình", "Phù hợp B2B: spa, gym, quán nước", "QR truy xuất nguồn gốc"],
+            image: "https://res.cloudinary.com/dixqw22t3/image/upload/v1772612181/z7185055253651_9fab3004af7f33946a895f93037b6fdc_yvviy3.jpg",
+            badge: "Gia Đình"
         },
         {
-            name: "Aloe Vera Gel Powder",
-            description: "Reconstitutable powder for topical and internal use",
-            price: "$34.99",
-            features: ["Reconstitutable", "Topical use", "Internal use", "500g Package"],
-            image: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-            badge: "Premium"
+            name: "Combo 3 Gói 100g LIVERA",
+            description: "Combo dùng liệu trình 90 ngày – giá ưu đãi, lý tưởng cho chuỗi liệu trình sức khỏe hoặc làm đẹp.",
+            price: "405.000đ",
+            features: ["Tiết kiệm 10% so với mua lẻ", "Đủ cho liệu trình 3 tháng", "Phù hợp tặng quà sức khỏe", "Miễn phí vận chuyển khi đặt online"],
+            image: "https://res.cloudinary.com/dixqw22t3/image/upload/v1772612181/z7185055253651_9fab3004af7f33946a895f93037b6fdc_yvviy3.jpg",
+            badge: "Tiết Kiệm"
         }
     ];
 
     const benefits = [
         {
             icon: "🌿",
-            title: "Digestive Health",
-            description: "Supports healthy digestion and gut function"
+            title: "Hỗ Trợ Tiêu Hóa",
+            description: "Thanh nhiệt, giải độc, làm dịu dạ dày và hỗ trợ chức năng đường ruột tự nhiên."
         },
         {
             icon: "💪",
-            title: "Immune Support",
-            description: "Boosts natural immune system function"
+            title: "Tăng Đề Kháng",
+            description: "Acemannan trong nha đam giúp kích thích hệ miễn dịch hoạt động hiệu quả hơn."
         },
         {
             icon: "✨",
-            title: "Skin Health",
-            description: "Promotes healthy, glowing skin from within"
+            title: "Dưỡng Da Tự Nhiên",
+            description: "Cấp ẩm sâu, làm dịu da kích ứng và hỗ trợ phục hồi da từ bên trong."
         },
         {
             icon: "🔥",
-            title: "Anti-Inflammatory",
-            description: "Natural anti-inflammatory properties"
+            title: "Kháng Viêm",
+            description: "Các hoạt chất tự nhiên trong nha đam giúp giảm viêm và làm dịu cơ thể."
         },
         {
             icon: "💧",
-            title: "Hydration",
-            description: "Supports optimal hydration and electrolyte balance"
+            title: "Bổ Sung Nước",
+            description: "Hỗ trợ cân bằng điện giải và duy trì độ ẩm tối ưu cho cơ thể."
         },
         {
             icon: "⚡",
-            title: "Energy Boost",
-            description: "Natural energy and vitality enhancement"
+            title: "Thanh Lọc Cơ Thể",
+            description: "Hỗ trợ quá trình detox tự nhiên, giúp cơ thể nhẹ nhàng và tràn đầy năng lượng."
         }
     ];
 
@@ -67,11 +67,11 @@ const Products: React.FC = () => {
                 {/* Products Section */}
                 <div className="text-center mb-16">
                     <h2 className="text-5xl font-bold text-gray-800 mb-6">
-                        Our Products
+                        Sản Phẩm LIVERA
                     </h2>
                     <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Premium quality aloe vera products crafted with care and precision. 
-                        Choose from our range of pure, organic formulations.
+                        Bột Nha Đam tinh khiết – Nature's Purest. Sản xuất theo quy trình 8 bước chuẩn hóa, 
+                        nguyên liệu từ vùng ĐBSCL, có mã QR truy xuất nguồn gốc.
                     </p>
                 </div>
 
@@ -111,12 +111,17 @@ const Products: React.FC = () => {
                                 </div>
                                 
                                 <div className="flex items-center justify-between">
-                                    <span className="text-3xl font-bold text-green-600">
+                                    <span className="text-2xl font-bold text-green-600">
                                         {product.price}
                                     </span>
-                                    <button className="bg-green-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors">
-                                        Add to Cart
-                                    </button>
+                                    <a
+                                        href="https://www.facebook.com/profile.php?id=61581147419635"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="bg-green-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors"
+                                    >
+                                        Đặt hàng
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -127,10 +132,10 @@ const Products: React.FC = () => {
                 <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl p-12">
                     <div className="text-center mb-12">
                         <h3 className="text-4xl font-bold text-gray-800 mb-6">
-                            Health Benefits
+                            Công Dụng Thực Tế
                         </h3>
                         <p className="text-xl text-gray-600">
-                            Discover the powerful health benefits of pure aloe vera powder
+                            Những lợi ích được ghi nhận từ việc sử dụng bột nha đam thuần khiết hàng ngày.
                         </p>
                     </div>
                     
@@ -156,41 +161,46 @@ const Products: React.FC = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         <div>
                             <h3 className="text-4xl font-bold text-gray-800 mb-6">
-                                Nutritional Profile
+                                Thành Phần Dinh Dưỡng
                             </h3>
                             <p className="text-lg text-gray-600 mb-8">
-                                Our aloe vera powder contains over 200 active compounds including 
-                                vitamins, minerals, amino acids, and enzymes.
+                                Bột nha đam LIVERA chứa hơn 200 hợp chất hoạt tính tự nhiên bao gồm 
+                                vitamin, khoáng chất, axit amin và enzyme.
                             </p>
                             
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                                    <span className="font-semibold text-gray-800">Vitamin A</span>
-                                    <span className="text-green-600 font-bold">High</span>
+                                    <span className="font-semibold text-gray-800">Vitamin C & E</span>
+                                    <span className="text-green-600 font-bold">Cao</span>
                                 </div>
                                 <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                                    <span className="font-semibold text-gray-800">Vitamin C</span>
-                                    <span className="text-green-600 font-bold">High</span>
+                                    <span className="font-semibold text-gray-800">Acemannan (Polysaccharide)</span>
+                                    <span className="text-green-600 font-bold">Rất Cao</span>
                                 </div>
                                 <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                                    <span className="font-semibold text-gray-800">Vitamin E</span>
-                                    <span className="text-green-600 font-bold">High</span>
+                                    <span className="font-semibold text-gray-800">Enzyme tự nhiên</span>
+                                    <span className="text-green-600 font-bold">Cao</span>
                                 </div>
                                 <div className="flex justify-between items-center py-3 border-b border-gray-200">
-                                    <span className="font-semibold text-gray-800">Acemannan</span>
-                                    <span className="text-green-600 font-bold">Very High</span>
+                                    <span className="font-semibold text-gray-800">Khoáng chất (Ca, Mg, Zn)</span>
+                                    <span className="text-green-600 font-bold">Vừa</span>
                                 </div>
                                 <div className="flex justify-between items-center py-3">
-                                    <span className="font-semibold text-gray-800">Antioxidants</span>
-                                    <span className="text-green-600 font-bold">Very High</span>
+                                    <span className="font-semibold text-gray-800">Chất chống oxy hóa</span>
+                                    <span className="text-green-600 font-bold">Rất Cao</span>
                                 </div>
+                            </div>
+
+                            {/* Warning note */}
+                            <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800">
+                                ⚠️ <strong>Lưu ý:</strong> Đây là thực phẩm bổ sung, không phải thuốc chữa bệnh. Người mắc bệnh tim, huyết áp cao hoặc tiểu đường cần tham khảo bác sĩ trước khi sử dụng thường xuyên.
                             </div>
                         </div>
                         
                         <div className="relative">
                             <img
-                                src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                                alt="Aloe Vera nutritional benefits"
+                                src="https://res.cloudinary.com/dixqw22t3/image/upload/v1772612181/z7185055253651_9fab3004af7f33946a895f93037b6fdc_yvviy3.jpg"
+                                alt="Bột Nha Đam LIVERA – thành phần dinh dưỡng"
                                 className="w-full h-96 object-cover rounded-2xl shadow-lg"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-green-500/20 to-transparent rounded-2xl"></div>
