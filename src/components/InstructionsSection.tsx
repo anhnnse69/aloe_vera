@@ -93,7 +93,7 @@ const InstructionsSection: React.FC<InstructionsSectionProps> = ({ onOpenChat })
                         <ul className="space-y-2">
                             <li className="flex items-start gap-2"><span className="text-green-600 font-bold mt-0.5">📅</span><span><strong>Hạn sử dụng:</strong> 3 tháng kể từ ngày sản xuất. Sau khi mở nắp: dùng trong 30 ngày.</span></li>
                             <li className="flex items-start gap-2"><span className="text-blue-600 font-bold mt-0.5">🚫</span><span><strong>Không dùng cho:</strong> Phụ nữ mang thai, đang cho con bú, trẻ em dưới 12 tuổi.</span></li>
-                            <li className="flex items-start gap-2"><span className="text-red-600 font-bold mt-0.5">🚨</span><span><strong>Uống quá liều:</strong> Buồn nôn, tiêu chảy, đau bụng → <strong>đến phòng khám gần nhất ngay</strong> hoặc gọi <strong>1800 9090</strong>.</span></li>
+                            <li className="flex items-start gap-2"><span className="text-red-600 font-bold mt-0.5">🚨</span><span><strong>Uống quá liều:</strong> Buồn nôn, tiêu chảy, đau bụng → <strong>đến phòng khám gần nhất ngay</strong>.</span></li>
                         </ul>
                     </div>
                 </motion.div>

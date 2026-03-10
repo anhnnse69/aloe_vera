@@ -272,8 +272,7 @@ Nếu dùng quá 10g/ngày hoặc có triệu chứng bất thường:
   1. Ngừng dùng bột nha đam ngay lập tức
   2. Uống nhiều nước lọc để bù điện giải
   3. Nếu triệu chứng nặng → **đến phòng khám hoặc bệnh viện gần nhất NGAY**
-  4. Hotline y tế miễn phí: **1800 9090**
-  5. Đường dây cấp cứu: **115**
+  4. Đường dây cấp cứu: **115**
 
 === TẦM NHÌN & KẾ HOẠCH ===
 - Tầm nhìn: Đưa LIVERA thành thương hiệu hàng đầu Việt Nam về sản phẩm nha đam, vươn ra khu vực và quốc tế.

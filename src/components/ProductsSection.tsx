@@ -193,7 +193,6 @@ const ProductsSection: React.FC = () => {
                                 <span className="inline-flex items-center gap-2 bg-red-100 text-red-700 font-semibold px-4 py-2 rounded-full text-sm border border-red-300">
                                     🏥 Nếu có triệu chứng bất thường — hãy đến <strong className="ml-1">phòng khám gần nhất ngay lập tức</strong>
                                 </span>
-                                <span className="text-gray-500 text-sm">Hotline y tế: <strong>1800 9090</strong> (miễn phí)</span>
                             </div>
                         </div>
                     </div>
